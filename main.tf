@@ -32,16 +32,18 @@ module "SQL_module" {
   region = var.region
 }
 
-module "Vault_module" {
-  source = "./Vault"
-  providers = {
-    google = google
-  }
+# TODO: Colocar o Vault dentro do cluster mesmo
 
-  # Variables
-  project = var.project
-  svc_account_email = var.svc_account_email
-}
+# module "Vault_module" {
+#   source = "./Vault"
+#   providers = {
+#     google = google
+#   }
+
+#   # Variables
+#   project = var.project
+#   svc_account_email = var.svc_account_email
+# }
 
 module "k8s_module" {
   source = "./Kubernetes"
