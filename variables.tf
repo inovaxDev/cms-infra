@@ -29,3 +29,7 @@ variable "letsencrypt_email" {
 variable "vault_server_domain" {
   description = "Vault Server Domain"
 }
+
+variable "ingress_controller_ip" {
+  description = "Ingress Controller IP"
+}

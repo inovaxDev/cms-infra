@@ -5,3 +5,7 @@ variable "dns_zone_name" {
 variable "cluster_name" {
   description = "Nome do cluster"
 }
+
+variable "ingress_controller_ip" {
+  description = "Ingress Controller IP"
+}

@@ -9,6 +9,7 @@ module "DNS_module" {
   # Variables
   dns_zone_name = var.dns_zone_name
   cluster_name  = var.cluster_name
+  ingress_controller_ip = var.ingress_controller_ip
 }
 
 module "GKE_module" {
