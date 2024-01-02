@@ -21,3 +21,11 @@ variable "svc_account_email" {
 variable "cluster_name" {
   description = "Nome do cluster"
 }
+
+variable "letsencrypt_email" {
+  description = "LetsEncrypt Email"
+}
+
+variable "vault_server_domain" {
+  description = "Vault Server Domain"
+}

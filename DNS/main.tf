@@ -21,3 +21,11 @@ resource "google_dns_record_set" "dns_record" {
   managed_zone = data.google_dns_managed_zone.dns_zone.name
   rrdatas      = [data.google_container_cluster.cms_gke_cluster_data.endpoint]
 }
+
+resource "google_dns_record_set" "vault_dns_record" {
+  name         = "vault.${data.google_dns_managed_zone.dns_zone.dns_name}"
+  type         = "A"
+  ttl          = 300
+  managed_zone = data.google_dns_managed_zone.dns_zone.name
+  rrdatas      = [data.google_container_cluster.cms_gke_cluster_data.endpoint]
+}

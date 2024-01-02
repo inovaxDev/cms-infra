@@ -20,7 +20,6 @@ resource "google_container_cluster" "cms_gke_cluster" {
       disk_size_gb    = 50
     }
     initial_node_count = 1
-    
   }
 }
 
