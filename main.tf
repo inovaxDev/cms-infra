@@ -47,6 +47,7 @@ module "Vault_module" {
   svc_account_email = var.svc_account_email
   email = var.letsencrypt_email
   domain = var.vault_server_domain
+  ingress_controller_ip = var.ingress_controller_ip
 }
 
 module "k8s_module" {

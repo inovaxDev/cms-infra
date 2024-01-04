@@ -13,3 +13,7 @@ variable "domain" {
 variable "svc_account_email" {
   description = "E-mail que será referenciado"
 }
+
+variable "ingress_controller_ip" {
+  description = "Ingress Controller IP"
+}

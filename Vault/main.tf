@@ -9,41 +9,13 @@ terraform {
   }
 }
 
-resource "kubernetes_manifest" "homolog_cert_manager" {
-  manifest = {
-    apiVersion = "cert-manager.io/v1"
-    kind       = "ClusterIssuer"
-    metadata = {
-      name = "letsencrypt-homolog"
-    }
-    spec = {
-      acme = {
-        server = "https://acme-staging-v02.api.letsencrypt.org/directory"
-        email  = var.email
-        privateKeySecretRef = {
-          name = "letsencrypt-homolog"
-        }
-        solvers = [
-          {
-            http01 = {
-              ingress = {
-                class = "nginx"
-              }
-            }
-          },
-        ]
-      }
-    }
-  }
-}
-
-
 resource "kubernetes_manifest" "prod_cert_manager" {
   manifest = {
     apiVersion = "cert-manager.io/v1"
-    kind       = "ClusterIssuer"
+    kind       = "Issuer"
     metadata = {
-      name = "letsencrypt-prod"
+      name      = "letsencrypt-prod"
+      namespace = "vault"
     }
     spec = {
       acme = {
@@ -73,8 +45,6 @@ resource "helm_release" "vault" {
   namespace  = "vault"
   repository = "https://helm.releases.hashicorp.com"
 
-  # depends_on = [ kubernetes_manifest.tls_server_certificate ]
-
   values = [file("${path.module}/vault-values.yaml")]
 }
 
@@ -84,12 +54,14 @@ resource "kubernetes_manifest" "vault_ingress" {
     kind       = "Ingress"
 
     metadata = {
-      name      = "vault-ingress"
+      name      = "ingress"
       namespace = "vault"
 
       annotations = {
-        "kubernetes.io/ingress.class"    = "nginx"
-        "cert-manager.io/cluster-issuer" = "letsencrypt-prod"
+        "kubernetes.io/ingress.class"  = "nginx"
+        "cert-manager.io/issuer"       = "letsencrypt-prod"
+        "cert-manager.io/duration"     = "2140h"
+        "cert-manager.io/renew-before" = "1500h"
       }
     }
 
@@ -97,7 +69,7 @@ resource "kubernetes_manifest" "vault_ingress" {
       tls = [
         {
           hosts      = [var.domain]
-          secretName = "vault-tls-certificate"
+          secretName = "tls-certificate"
         }
       ]
 
