@@ -39,3 +39,7 @@ resource "null_resource" "configure_kubectl" {
 output "cms_gke_cluster_endpoint" {
   value = google_container_cluster.cms_gke_cluster.endpoint
 }
+
+output "cms_gke_cluster_ip" {
+  value = google_container_cluster.cms_gke_cluster.cluster_ipv4_cidr
+}

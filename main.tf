@@ -7,8 +7,8 @@ module "DNS_module" {
   depends_on = [module.GKE_module]
 
   # Variables
-  dns_zone_name = var.dns_zone_name
-  cluster_name  = var.cluster_name
+  dns_zone_name         = var.dns_zone_name
+  cluster_name          = var.cluster_name
   ingress_controller_ip = var.ingress_controller_ip
 }
 
@@ -29,24 +29,27 @@ module "SQL_module" {
     google = google
   }
 
+  depends_on = [module.GKE_module]
+
   # Variables
-  region = var.region
+  region   = var.region
+  prem_ips = [var.ingress_controller_ip]
 }
 
 module "Vault_module" {
   source = "./Vault"
   providers = {
-    google = google
+    google     = google
     kubernetes = kubernetes
   }
 
-  depends_on = [ module.k8s_module ]
+  depends_on = [module.k8s_module]
 
   # Variables
-  project = var.project
-  svc_account_email = var.svc_account_email
-  email = var.letsencrypt_email
-  domain = var.vault_server_domain
+  project               = var.project
+  svc_account_email     = var.svc_account_email
+  email                 = var.letsencrypt_email
+  domain                = var.vault_server_domain
   ingress_controller_ip = var.ingress_controller_ip
 }
 
@@ -54,10 +57,10 @@ module "k8s_module" {
   source = "./Kubernetes"
   providers = {
     kubernetes = kubernetes
-    helm = helm
+    helm       = helm
   }
 
-  depends_on = [ module.GKE_module ]
+  depends_on = [module.GKE_module]
 
   # Variables
   region = var.region
